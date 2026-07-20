@@ -13,88 +13,60 @@ Website: http://vigneshmoha.me
   <meta name="Description" content=""/>
   <meta name="Keywords" content=""/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/css?family=Lato:400,900|Open+Sans:400,300,800,700,600|Arvo" rel="stylesheet" type="text/css"> 
   <!-- <link rel="shortcut icon" type="image/x-icon" href="media/img/favicon.ico"> -->
   <link rel="stylesheet" type="text/css" href="media/css/main.css"/>
+  <link rel="stylesheet" type="text/css" href="media/css/responsive.css"/>
   <script type="text/javascript" src="media/js/jquery.min.js"></script>
   <script type="text/javascript" src="media/js/main.js"></script>
   <script type="text/javascript">
 	$(document).ready(function() {
-		$('#send').click(function() {
-			var error = 1;
-			var name = $('#name').val();
-			var email = $('#email').val();
-			var mobile = $('#mobile').val();
-			var option = $("input[type=radio][name=option]:checked").val();
-			
-			function validateText(name) {
-			  var pattern = /^[a-zA-Z'-.\s]+$/;
-			  if (pattern.test(name)) {
-				return true;
-			  } 
-			  return false;
-			}
-			function validateMail(mail) {
-			  var pattern = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,3}$/;
-			  //var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-			  if (pattern.test(mail)) {
-				return true;
-			  }     
-			  return false;
-			}
-			function validateMobile(mobile) {
-			  var pattern = /^(\+91-|\+91|0|\91)?\d{10}$/;
-			  if (pattern.test(mobile)) {
-				return true;
-			  }     
-			  return false;
-			}
-			if(name == "" || !(validateText(name))) {
-			  $('#name').addClass('error');
-			  error = 0;
-			}
-			if(email == "" || !(validateMail(email))) {
-			  $('#email').addClass('error');
-			  error = 0;
-			}
-			if(mobile == "" || !(validateMobile(mobile))) {
-			  $('#mobile').addClass('error');
-			  error = 0;
-			}
-			if(option == "") {
-			  $('#option').addClass('error');
-			  error = 0;
-			}
-			
-			if(!error) {
-			  return false;
-			}
-			var dataSet = 'name='+name+'&mail='+email+'&mobile='+mobile+'&option='+option;
+		function validateText(v) { return /^[a-zA-Z'.\-\s]+$/.test(v); }
+		function validateMail(v) { return /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/.test(v); }
+		function validateMobile(v) { return /^[+\d][\d\s\-]{7,15}$/.test(v); }
+
+		$('#ceform').on('submit', function(e) {
+			e.preventDefault();
+			var error = false;
+			var name = $.trim($('#name').val());
+			var email = $.trim($('#email').val());
+			var mobile = $.trim($('#mobile').val());
+			var option = $("input[name=option]:checked").val();
+
+			if(name === "" || !validateText(name)) { $('#name').addClass('error'); error = true; }
+			if(email === "" || !validateMail(email)) { $('#email').addClass('error'); error = true; }
+			if(mobile === "" || !validateMobile(mobile)) { $('#mobile').addClass('error'); error = true; }
+			if(!option) { error = true; alert('Please select what you are looking for.'); }
+			if(error) { return false; }
+
 			$('#send').val('Sending...');
 			$.ajax({
-			  type:'post',
-			  url:'mail.php',
-			  data:dataSet,
-			  success: function(data) {
-				if(data == "success") {
-				  alert('Sent Successfully');
-				  $('#name').val('');
-				  $('#mobile').val('');
-				  $('#email').val('');
-				} else {
-				  alert('something went wrong! Try again later');
-				}
+			  url: 'https://formsubmit.co/ajax/spcetennis@gmail.com',
+			  method: 'POST',
+			  dataType: 'json',
+			  accepts: 'application/json',
+			  data: {
+				Name: name,
+				Email: email,
+				Phone: mobile,
+				'Looking for': option,
+				_subject: 'New enquiry from cetennis.in',
+				_template: 'table'
+			  },
+			  success: function() {
+				alert('Thank you! Your enquiry has been sent. We will get back to you soon.');
+				$('#ceform')[0].reset();
 				$('#send').val('Send');
 			  },
-			  statusCode: {
-				404: function() {
-				  alert("Mailer not found");
-				}
+			  error: function() {
+				alert('Sorry, something went wrong. Please call us or message us on WhatsApp and we will help right away.');
+				$('#send').val('Send');
 			  }
 			});
 		});
-		
-		$('input, textarea').focus(function(){
+
+		$('input, textarea').focus(function() {
 			$(this).removeClass('error');
 		});
 	});
@@ -110,11 +82,11 @@ Website: http://vigneshmoha.me
 			<div class="phone-no">
 				<div class="phone-no-inside">
 					<div class="phone-icon india"></div>
-					+91 9566 197818
+					<a href="https://wa.me/919566197818" target="_blank" rel="noopener">+91 9566 197818</a>
 				</div>
 				<div class="phone-no-inside">
 					<div class="phone-icon usa"></div>
-					001-830 624 5895
+					<a href="tel:+18306245895">001-830 624 5895</a>
 				</div>
 			</div>
 			<div class="ht-logo contact-ht-logo">
@@ -157,27 +129,30 @@ Website: http://vigneshmoha.me
 							<p class="high">You could contact us anytime between 10AM-3PM.</p>
 							<div class="contact-form">
 								<h3>Write to us</h3>
-								<p><input type="text" name="name" placeholder="Name*" id="name" class="inp-class"/></p>
-								<p><input type="text" name="phone" placeholder="Phone*" id="mobile" class="inp-class"/></p>
-								<p><input type="text" name="email" placeholder="Email*" id="email" class="inp-class"/></p>
-								<p style="color:#ff7e00;"><b>You are looking for:</b></p> 
-								<!-- <textarea name="message" id="message" Placeholder="Message*"></textarea></p> -->
-								 
-								<input type="radio" name="option" value="Beginners"> Beginners<br>
-								<input type="radio" name="option" value="Intermediate"> Intermediate<br>
-								<input type="radio" name="option" value="Advanced Program"> Advanced Program<br>
-								<input type="radio" name="option" value="Adult Program"> Adult Program<br>
-								<input type="radio" name="option" value="Individual Program"> Individual Program
-								
-								<p style="text-align:right;margin-right:12px; margin-top:10px;"><input type="submit" value="Send" id="send" class="inp-submit"/></p>
+								<form id="ceform" action="https://formsubmit.co/spcetennis@gmail.com" method="POST">
+									<input type="hidden" name="_subject" value="New enquiry from cetennis.in">
+									<input type="hidden" name="_template" value="table">
+									<input type="hidden" name="_captcha" value="false">
+									<input type="text" name="_honey" style="display:none">
+									<p><input type="text" name="name" placeholder="Name*" id="name" class="inp-class"/></p>
+									<p><input type="text" name="phone" placeholder="Phone*" id="mobile" class="inp-class"/></p>
+									<p><input type="text" name="email" placeholder="Email*" id="email" class="inp-class"/></p>
+									<p style="color:#ff7e00;"><b>You are looking for:</b></p>
+									<input type="radio" name="option" value="Beginners"> Beginners<br>
+									<input type="radio" name="option" value="Intermediate"> Intermediate<br>
+									<input type="radio" name="option" value="Advanced Program"> Advanced Program<br>
+									<input type="radio" name="option" value="Adult Program"> Adult Program<br>
+									<input type="radio" name="option" value="Individual Program"> Individual Program
+									<p style="text-align:right;margin-right:12px; margin-top:10px;"><input type="submit" value="Send" id="send" class="inp-submit"/></p>
+								</form>
 							</div>
 						</div>
 						<div class="floatLeft cic-schedule">
 							<h3>Contact</h3>
 							<p><strong>Meenakshi Sundaram</strong></p>
-							<p class="phone india">+91 9566 197818</p>
-							<p class="phone usa">001-830 624 5895</p>
-							<p class="email">cetennis@gmail.com</p>
+							<p class="phone india"><a href="https://wa.me/919566197818" target="_blank" rel="noopener">+91 9566 197818</a></p>
+							<p class="phone usa"><a href="tel:+18306245895">001-830 624 5895</a></p>
+							<p class="email"><a href="mailto:cetennis@gmail.com">cetennis@gmail.com</a></p>
 							<a class="map-contact" href="https://maps.google.co.in/maps?q=Residential+Tennis+Coaching+Centre,+Chennai,+Tamil+Nadu&amp;hl=en&amp;ll=12.858582,80.224485&amp;spn=0.045437,0.084543&amp;t=m&amp;z=14" target="_blank" style="display:block;padding:0;overflow:hidden;">
 								<iframe src="https://www.google.com/maps?q=12.84785,80.22218&amp;z=16&amp;output=embed" title="CE Tennis location map" style="width:100%;height:100%;border:0;pointer-events:none;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 							</a>

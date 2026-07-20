@@ -6,10 +6,24 @@ $(document).ready(function() {
 					width = width-17;
 				}
 				newHeight = width/ratioChange;
+				if(width <= 1103) { newHeight = Math.max(newHeight, 160); }//keep banner usable on small screens
 				$('.header-img-fixed').css({'height':newHeight+'px'});//height for header image
 				
 				$('.header').css('height',newHeight+'px');
 				$('.menu-container').css('top',newHeight+'px');
+
+				// mobile hamburger menu
+				var menuWrapper = $('.menu-wrapper');
+				if(menuWrapper.length && $('.menu-toggle').length === 0) {
+					var toggle = $('<div class="menu-toggle" role="button" aria-label="Toggle menu">&#9776;</div>');
+					menuWrapper.append(toggle);
+					toggle.on('click', function() {
+						$('.menu-container').toggleClass('menu-open');
+					});
+					$('.menu li a').on('click', function() {
+						$('.menu-container').removeClass('menu-open');
+					});
+				}
 				
 				var links = $('.menu-container'),
 				pos = links.offset();
@@ -35,12 +49,25 @@ $(document).ready(function() {
 		$('div.single-accordion').removeClass('active');
 		$(this).parent('div.single-accordion').addClass('active');
 	}); */
-	$(".single-accordion-head").hover(function(){
-		if($(this).parent('div.single-accordion').hasClass('active')) {
-			return false;
-		}
-		$('div.single-accordion').removeClass('active');
-		$(this).parent('div.single-accordion').addClass('active');
-	}, function() {
-	});
+	if('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+		// touch devices: tap to toggle the accordion
+		$('.single-accordion-head').on('click', function() {
+			var parent = $(this).parent('div.single-accordion');
+			if(parent.hasClass('active')) {
+				parent.removeClass('active');
+			} else {
+				$('div.single-accordion').removeClass('active');
+				parent.addClass('active');
+			}
+		});
+	} else {
+		$(".single-accordion-head").hover(function(){
+			if($(this).parent('div.single-accordion').hasClass('active')) {
+				return false;
+			}
+			$('div.single-accordion').removeClass('active');
+			$(this).parent('div.single-accordion').addClass('active');
+		}, function() {
+		});
+	}
 });

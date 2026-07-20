@@ -1,0 +1,186 @@
+/* -----------------------------------------------
+Responsive / mobile styles for Competitive Edge Tennis
+Layered on top of main.css (desktop design width = 1104px).
+Everything below 1104px collapses to a fluid, single-column layout.
+-------------------------------------------------- */
+
+/* ---- Global guards (all screen sizes) ---- */
+html, body { overflow-x: hidden; }
+.menu-toggle { display: none; }
+
+/* Clickable phone / mail links keep the surrounding text style */
+.phone-no-inside a,
+.cic-schedule .phone a,
+.cic-schedule .email a,
+.phone-hire-inside a {
+  color: inherit;
+  display: inline;
+  text-decoration: none;
+}
+.phone-no-inside a:hover,
+.cic-schedule .phone a:hover,
+.cic-schedule .email a:hover,
+.phone-hire-inside a:hover {
+  text-decoration: underline;
+}
+
+/* =====================================================
+   Tablets & phones: below the 1104px desktop design width
+   ===================================================== */
+@media (max-width: 1103px) {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  /* fluid shells */
+  .container { width: auto; max-width: 100%; }
+  .contents, .other-contents, .footer, .header-img-fixed { min-width: 0; }
+  .about-section { width: auto; }
+  .contents { padding-top: 64px; padding-bottom: 20px; }
+  .contents > .container { padding-left: 15px; padding-right: 15px; }
+
+  /* ---- banner ---- */
+  .header-img-fixed {
+    background-size: cover !important;
+    background-position: center !important;
+  }
+  .highlight-text, .ht-logo { display: none !important; }
+  .social-links { right: 12px; top: 10px; }
+  .phone-no { left: 18px; top: 10px; }
+
+  /* ---- header bar: hamburger menu ---- */
+  .menu-container { min-height: 46px; }
+  .menu-wrapper { position: relative; padding: 0; }
+  .logo-content { float: none; }
+  .logo-content li a { font-size: 22px; padding: 11px 15px; }
+  .menu-toggle {
+    display: block;
+    position: absolute;
+    right: 10px;
+    top: 6px;
+    color: #fff;
+    font-size: 26px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 12px;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .menu {
+    float: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    background: #000;
+    transition: max-height 0.3s ease;
+  }
+  .menu-container.menu-open .menu { max-height: 700px; padding-bottom: 8px; }
+  .menu li { float: none; margin: 0; }
+  .menu li a {
+    display: block;
+    padding: 13px 16px;
+    border-top: 1px solid #1c1c1c;
+    border-bottom: 0 !important;
+  }
+  .menu li a.active,
+  .menu li a:hover { background: #1a1a1a; }
+
+  /* ---- stack every two-column content block ---- */
+  .home-container, .about-container, .achievements-container,
+  .usa-container, .prog-container, .fac-container, .contact-container,
+  .gallery-container, .gallery-inside { width: auto; }
+
+  .hc-first-left, .ac-first-left {
+    width: auto; float: none; padding-right: 0; border-right: 0;
+  }
+  .hc-first-right, .ac-first-right {
+    width: auto; float: none; padding-left: 0; padding-top: 10px;
+  }
+  .aic-content, .aic-img, .usa-img,
+  .pic-content, .pic-schedule,
+  .fic-content, .cic-content, .cic-schedule {
+    width: auto; float: none; padding-right: 0;
+  }
+
+  /* logo image scales down cleanly */
+  .home-logo {
+    width: 100%;
+    max-width: 574px;
+    height: auto;
+    aspect-ratio: 574 / 144;
+    background-size: contain;
+  }
+
+  /* single feature photos become fluid */
+  .aic-img-wrapper, .usa-img-wrapper {
+    width: 100%; max-width: 407px; height: auto;
+    aspect-ratio: 407 / 266; background-size: cover; margin: 15px 0;
+  }
+  .aic-img-wrapper1 {
+    width: 100%; max-width: 295px; height: auto;
+    aspect-ratio: 295 / 170; background-size: cover; margin: 15px 0;
+  }
+  .aic-img-wrapper2 {
+    width: 100%; max-width: 295px; height: auto;
+    aspect-ratio: 295 / 180; background-size: cover; margin: 15px 0;
+  }
+
+  /* decorative photo collages: hide on small screens */
+  .home-photos, .map, .about-photos, .programmes-img, .contact-img {
+    display: none !important;
+  }
+
+  /* testimonials */
+  .testimonials-container { margin-left: 0; }
+  .single-testimonials { width: auto; display: flex; align-items: flex-start; }
+  .single-testimonials .img { flex: 0 0 auto; }
+  .single-testimonials .testi-content { width: auto; margin-left: 15px; }
+  .single-testimonials .clear { display: none; }
+
+  /* accordions become fluid */
+  .single-accordion-head,
+  .single-accordion.active .single-accordion-head { width: auto !important; }
+  .single-accordion-content,
+  .single-accordion.active .single-accordion-content { width: auto !important; }
+  .single-accordion-head .right-sharp,
+  .single-accordion-head .right-edge { display: none; }
+
+  /* programmes schedule table */
+  .pics-schedule-cont { width: auto; }
+  .pics-schedule-cont .single-row .col2 { width: auto; }
+
+  /* contact form */
+  .contact-form { width: auto; max-width: 440px; }
+  .inp-class, textarea { width: 100%; }
+  .map-contact { width: 100%; max-width: 400px; }
+
+  /* facilities slideshow */
+  .fic-slideshow {
+    width: 100% !important; max-width: 458px; height: auto !important;
+    margin: 0 auto 20px; overflow: hidden;
+  }
+  #fic-slideshow-id { width: 100% !important; }
+  .fic-slideshow .slides_container { width: 100% !important; height: auto !important; }
+  .fic-slideshow .slides_container div { width: 100% !important; height: auto !important; }
+  .fic-slideshow .slides_container img { width: 100%; height: auto; display: block; }
+  #fic-slideshow-id a.prev { left: 6px; z-index: 5; }
+  #fic-slideshow-id a.next { right: 6px; z-index: 5; }
+
+  /* gallery safety */
+  .gallery-inside { overflow: hidden; }
+  .galleryview { max-width: 100% !important; }
+  #myGallery { list-style: none; padding: 0; margin: 0; }
+}
+
+/* =====================================================
+   Phones
+   ===================================================== */
+@media (max-width: 600px) {
+  .home-container h3 { font-size: 22px; }
+  .about-container h3, .achievements-container h3, .usa-container h3,
+  .prog-inside h3, .fac-container h3, .contact-container h3,
+  .gallery-inside h3 { font-size: 20px; }
+  .logo-content li a { font-size: 20px; }
+  .phone-no-inside { font-size: 12px; }
+  .single-testimonials .img { width: 70px; height: 70px; background-size: cover; }
+}
