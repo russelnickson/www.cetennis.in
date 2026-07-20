@@ -137,11 +137,9 @@ width:32px;
 height:32px;
 background:url('../img/social-links.png') no-repeat top left;
 }
-.social-links li a.facebook {
-background-position:-40px 0;
-}
-.social-links li a.twitter {
-background-position:0 0;
+.social-links li a.instagram {
+background:url('../img/instagram.svg') no-repeat top left;
+background-size:32px 32px;
 }
 .phone-no {
 position:absolute;
