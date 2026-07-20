@@ -32,10 +32,21 @@ npx serve .
 
 Then visit `http://localhost:8000`.
 
+## Structure
+
+```
+├── *.html              # site pages
+└── media/
+    ├── css/            # main.css, gallery view styles, theme images
+    ├── js/             # jQuery, gallery/slider plugins, main.js
+    └── img/            # banners, logos, gallery, facilities, testimonials
+```
+
 ## Notes
 
-- Assets (CSS, JS, images) are currently referenced via Wayback Machine / archived URLs from the original live site.
-- This repository tracks the HTML pages for version control and future restoration or redesign.
+- All CSS, JS, and image assets were recovered from the Internet Archive and are now stored **locally** under `media/`, so the site is fully self-contained and works offline.
+- Wayback Machine injection (scripts, banners, rewritten URLs) and the dead hit-counter / legacy Analytics snippet have been removed.
+- A few external links remain intentional: Google Fonts, Facebook, Google Maps, `cetenniscamps.com`, and the developer credit `webdefy.org`.
 
 ## License
 
