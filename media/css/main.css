@@ -1007,6 +1007,14 @@ ul.lists li{
 background:#000;
 color:#fff;
 min-width:1104px;
+text-align:center;
+}
+.footer .footer-text {
+margin:0;
+padding:14px 0;
+color:#fff;
+font-size:12px;
+font-family:lato;
 }
 .footer .left-footer li, .footer .right-footer li {
 float:left;
